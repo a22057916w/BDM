@@ -73,4 +73,14 @@ print(f"Count of values for {global_active_power}: {count1}")
 print(f"Count of values for {global_reactive_power}: {count2}")
 print(f"Count of values for {voltage}: {count3}")
 
+
+
+# Calculate the mean and standard deviation for a column
+mean_value = df.select(mean(global_active_power)).first()[0]
+stddev_value = df.select(stddev(global_active_power)).collect()[0][0]
+
+print(f"Mean: {mean_value}")
+print(f"Standard Deviation: {stddev_value}")
+
+
 spark.stop()
