@@ -1,2 +1,8 @@
-# BDM
-Big Data Mining and Applications
+# Big Data Mining and Applications
+- [ ] Hadoop
+- [x] Spark
+- [ ] Scala
+- [ ] Java
+- [x] Python
+- [x] MapReduce
+
