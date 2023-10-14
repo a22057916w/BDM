@@ -9,7 +9,7 @@ spark = SparkSession.builder \
 
 df = spark.read.csv("./data/household_power_consumption.txt", sep=";", header=True)
 
-df.show(30)
+df.show()
 
 # df.na.fill(10000).show()
 
@@ -76,10 +76,18 @@ print(f"Count of values for {voltage}: {count3}")
 
 
 # Calculate the mean and standard deviation for a column
-mean_value = df.select(mean(global_active_power)).first()[0]
+mean_values = df.select(mean(global_active_power), mean(global_reactive_power), mean(voltage)).first()
+mean_global_active_power = mean_values[0]
+mean_global_reactive_power = mean_values[1]
+mean_voltage = mean_values[2]
+
+print(f"Mean value for '{global_active_power}': {mean_global_active_power}")
+print(f"Mean value for '{global_reactive_power}': {mean_global_reactive_power}")
+print(f"Mean value for '{voltage}': {mean_voltage}")
+
 stddev_value = df.select(stddev(global_active_power)).collect()[0][0]
 
-print(f"Mean: {mean_value}")
+
 print(f"Standard Deviation: {stddev_value}")
 
 
