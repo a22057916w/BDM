@@ -39,39 +39,43 @@ df = df.withColumns({ "Global_active_power": col("Global_active_power").cast(new
 # for column_name, data_type in column_data_types:
 #     print(f"Column '{column_name}' has data type: {data_type}")
 
-# Calculate maximum values for the three columns
+
 
 global_active_power = "Global_active_power"
 global_reactive_power = "Global_reactive_power"
 voltage = "Voltage"
 
-max_values = df.select(max("Global_active_power"), max("Global_reactive_power"), max("Voltage")).first()
+# Calculate maximum values for the three columns
+max_values = df.select(max(global_active_power), max(global_reactive_power), max(voltage)).first()
 max_global_active_power = max_values[0]
 max_global_reactive_power = max_values[1]
 max_voltage = max_values[2]
 
+print(f"Maximum value for '{global_active_power}': {max_global_active_power}")
+print(f"Maximum value for '{global_reactive_power}': {max_global_reactive_power}")
+print(f"Maximum value for '{voltage}': {max_voltage}")
+print("==============================================================")
+
 # Calculate minimum values for the three columns
-min_values = df.select(min("Global_active_power"), min("Global_reactive_power"), min("Voltage")).first()
+min_values = df.select(min(global_active_power), min(global_reactive_power), min(voltage)).first()
 min_global_active_power = min_values[0]
 min_global_reactive_power = min_values[1]
 min_voltage = min_values[2]
 
+print(f"Minimum value for '{global_active_power}': {min_global_active_power}")
+print(f"Minimum value for '{global_reactive_power}': {min_global_reactive_power}")
+print(f"Minimum value for '{voltage}': {min_voltage}")
+print("==============================================================")
+
 # Calculate counts for the three columns
-count1 = df.select("Global_active_power").count()
-count2 = df.select("Global_reactive_power").count()
-count3 = df.select("Voltage").count()
+count_global_active_power = df.select(global_active_power).count()
+count_global_reactive_power = df.select(global_reactive_power).count()
+count_voltage = df.select(voltage).count()
 
-print(f"Maximum value for {global_active_power}: {max_global_active_power}")
-print(f"Maximum value for {global_reactive_power}: {max_global_reactive_power}")
-print(f"Maximum value for {voltage}: {max_voltage}")
-
-print(f"Minimum value for {global_active_power}: {min_global_active_power}")
-print(f"Minimum value for {global_reactive_power}: {min_global_reactive_power}")
-print(f"Minimum value for {voltage}: {min_voltage}")
-
-print(f"Count of values for {global_active_power}: {count1}")
-print(f"Count of values for {global_reactive_power}: {count2}")
-print(f"Count of values for {voltage}: {count3}")
+print(f"Count of values for '{global_active_power}': {count_global_active_power}")
+print(f"Count of values for '{global_reactive_power}': {count_global_reactive_power}")
+print(f"Count of values for '{voltage}': {count_voltage}")
+print("==============================================================")
 
 
 
@@ -84,6 +88,7 @@ mean_voltage = mean_values[2]
 print(f"Mean value for '{global_active_power}': {mean_global_active_power}")
 print(f"Mean value for '{global_reactive_power}': {mean_global_reactive_power}")
 print(f"Mean value for '{voltage}': {mean_voltage}")
+print("==============================================================")
 
 stddev_value = df.select(stddev(global_active_power)).collect()[0][0]
 
