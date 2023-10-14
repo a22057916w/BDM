@@ -1,7 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import DoubleType
-import pandas as pd
 
 spark = SparkSession.builder \
     .appName("MapReduce") \
@@ -79,7 +78,7 @@ print("==============================================================")
 
 
 
-# Calculate the mean and standard deviation for a column
+# Calculate the mean and standard deviation 
 mean_values = df.select(mean(global_active_power), mean(global_reactive_power), mean(voltage)).first()
 mean_global_active_power = mean_values[0]
 mean_global_reactive_power = mean_values[1]
@@ -90,10 +89,16 @@ print(f"Mean value for '{global_reactive_power}': {mean_global_reactive_power}")
 print(f"Mean value for '{voltage}': {mean_voltage}")
 print("==============================================================")
 
-stddev_value = df.select(stddev(global_active_power)).collect()[0][0]
+# Calculate the standard deviation 
+stddev_values = df.select(stddev(global_active_power), stddev(global_reactive_power), stddev(voltage)).first()
+stddev_global_active_power = stddev_values[0]
+stddev_global_reactive_power = stddev_values[1]
+stddev_voltage = stddev_values[2]
 
-
-print(f"Standard Deviation: {stddev_value}")
+print(f"Standard Deviation for '{global_active_power}: {stddev_global_active_power}")
+print(f"Standard Deviation for '{global_reactive_power}': {stddev_global_reactive_power}")
+print(f"Standard Deviation for '{voltage}': {stddev_voltage}")
+print("==============================================================")
 
 
 spark.stop()
