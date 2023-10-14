@@ -9,6 +9,7 @@ spark = SparkSession.builder \
 df = spark.read.csv("./data/household_power_consumption.txt", sep=";", header=True)
 
 df.show()
+print("==============================================================")
 
 # df.na.fill(10000).show()
 
@@ -100,5 +101,26 @@ print(f"Standard Deviation for '{global_reactive_power}': {stddev_global_reactiv
 print(f"Standard Deviation for '{voltage}': {stddev_voltage}")
 print("==============================================================")
 
+
+# Perform min-max normalization
+df_normalized = df.select(global_active_power, global_reactive_power, voltage)
+
+# Define the min-max normalization function
+min_max_normalize = lambda col_name, min_val, max_val: (col(col_name) - min_val) / (max_val - min_val)
+
+# Apply the min-max normalization to the columns
+df_normalized = df_normalized.withColumn("Global_active_power", min_max_normalize(global_active_power, min_global_active_power, max_global_active_power))
+df_normalized = df_normalized.withColumn("Global_reactive_power", min_max_normalize(global_reactive_power, min_global_reactive_power, max_global_reactive_power))
+df_normalized = df_normalized.withColumn("Voltage", min_max_normalize(voltage, min_voltage, max_voltage))
+
+# Rename the normalized columns 
+df_normalized = df_normalized.withColumnsRenamed({global_active_power : "normalized_global_active_power", \
+                                                  global_reactive_power : "normalized_global_reactive_power", \
+                                                  voltage: "normalized_voltage"
+                                                  })
+
+# Show the resulting DataFrame with normalized columns
+df_normalized.show()
+print("==============================================================")
 
 spark.stop()
