@@ -8,6 +8,13 @@ spark = SparkSession.builder \
 
 df = spark.read.csv("./data/household_power_consumption.txt", sep=";", header=True)
 
+df = df.filter(df.Global_active_power != "?")
+df = df.filter(df.Global_reactive_power != "?")
+df = df.filter(df.Voltage != "?")
+# df_filtered.show()
+# print("==============================================================")
+
+
 df.show()
 print("==============================================================")
 
@@ -122,5 +129,10 @@ df_normalized = df_normalized.withColumnsRenamed({global_active_power : "normali
 # Show the resulting DataFrame with normalized columns
 df_normalized.show()
 print("==============================================================")
+
+import time
+
+# For UI to stick
+time.sleep(1000000)
 
 spark.stop()
