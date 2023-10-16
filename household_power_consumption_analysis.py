@@ -149,17 +149,14 @@ print("==============================================================")
 
 
 # Convert the DataFrame to a CSV-like format
-# head_rows = df.toPandas()
-
 str_normalized_data = df_normalized.toPandas().to_string(index=False)
-
 with open("normalized_data.txt", "w") as file:
     file.write(str_normalized_data)
+print("Output to txt is done.")
 
-# df_normalized.write.csv("./data/normaliezd_data.csv")
-import time
+# import time
 
-# For UI to stick
-time.sleep(1000000)
+# # For UI to stick
+# time.sleep(1000000)
 
 spark.stop()
