@@ -6,7 +6,7 @@
 | Cores | 20 |
 | Memory | 64G |
 
-## Install
+## Spark Installation
 #### Download Java runtime
 Install Java runtime (version 8 and above) <br>
 Add JAVA_HOME to System variable in Windows <br>
@@ -32,3 +32,6 @@ Reboot and verify Spark installation
 Install pyspark \
 Add PYSPARK_PYTHON(same as python path) to System variable \
 Reboot and verify Pyspark installation
+
+## Run Source Code
+Simply run `python household_power_consumption_analysis.py` on CLI.
