@@ -31,7 +31,7 @@ df = df.filter(df.Global_intensity != "?")
 
 
 df.show()
-print("==============================================================")
+printAns("==============================================================")
 
 # Define the new data type you want for the column
 new_data_type = DoubleType()  
@@ -82,11 +82,11 @@ min_global_reactive_power = df.select(global_reactive_power).rdd.map(map_min).re
 min_voltage = df.select(voltage).rdd.map(map_min).reduce(reduce_min)
 min_global_intensity = df.select(global_intensity).rdd.map(map_min).reduce(reduce_min)
 
-print(f"Minimum value for '{global_active_power}': {min_global_active_power}")
-print(f"Minimum value for '{global_reactive_power}': {min_global_reactive_power}")
-print(f"Minimum value for '{voltage}': {min_voltage}")
-print(f"Minimum value for '{global_intensity}: {min_global_intensity}")
-print("==============================================================")
+printAns(f"Minimum value for '{global_active_power}': {min_global_active_power}")
+printAns(f"Minimum value for '{global_reactive_power}': {min_global_reactive_power}")
+printAns(f"Minimum value for '{voltage}': {min_voltage}")
+printAns(f"Minimum value for '{global_intensity}: {min_global_intensity}")
+printAns("==============================================================")
 
 # ============================== Calculate counts for the three columns ===============================
 count_global_active_power = df.select(global_active_power).count()
@@ -94,11 +94,11 @@ count_global_reactive_power = df.select(global_reactive_power).count()
 count_voltage = df.select(voltage).count()
 count_global_intensity = df.select(global_intensity).count()
 
-print(f"Count of values for '{global_active_power}': {count_global_active_power}")
-print(f"Count of values for '{global_reactive_power}': {count_global_reactive_power}")
-print(f"Count of values for '{voltage}': {count_voltage}")
-print(f"Count of values for '{global_intensity}': {count_global_intensity}")
-print("==============================================================")
+printAns(f"Count of values for '{global_active_power}': {count_global_active_power}")
+printAns(f"Count of values for '{global_reactive_power}': {count_global_reactive_power}")
+printAns(f"Count of values for '{voltage}': {count_voltage}")
+printAns(f"Count of values for '{global_intensity}': {count_global_intensity}")
+printAns("==============================================================")
 
 
 
@@ -109,11 +109,11 @@ mean_global_reactive_power = mean_values[1]
 mean_voltage = mean_values[2]
 mean_global_intensity = mean_values[3]
 
-print(f"Mean value for '{global_active_power}': {mean_global_active_power}")
-print(f"Mean value for '{global_reactive_power}': {mean_global_reactive_power}")
-print(f"Mean value for '{voltage}': {mean_voltage}")
-print(f"Mean value for '{global_intensity}': {mean_global_intensity}")
-print("==============================================================")
+printAns(f"Mean value for '{global_active_power}': {mean_global_active_power}")
+printAns(f"Mean value for '{global_reactive_power}': {mean_global_reactive_power}")
+printAns(f"Mean value for '{voltage}': {mean_voltage}")
+printAns(f"Mean value for '{global_intensity}': {mean_global_intensity}")
+printAns("==============================================================")
 
 # ============================== Calculate the standard deviation ==============================
 stddev_values = df.select(stddev(global_active_power), stddev(global_reactive_power), stddev(voltage), stddev(global_intensity)).first()
@@ -122,11 +122,11 @@ stddev_global_reactive_power = stddev_values[1]
 stddev_voltage = stddev_values[2]
 stddev_global_intensity = stddev_values[3]
 
-print(f"Standard Deviation for '{global_active_power}: {stddev_global_active_power}")
-print(f"Standard Deviation for '{global_reactive_power}': {stddev_global_reactive_power}")
-print(f"Standard Deviation for '{voltage}': {stddev_voltage}")
-print(f"Standard Deviation for '{global_intensity}': {stddev_global_intensity}")
-print("==============================================================")
+printAns(f"Standard Deviation for '{global_active_power}': {stddev_global_active_power}")
+printAns(f"Standard Deviation for '{global_reactive_power}': {stddev_global_reactive_power}")
+printAns(f"Standard Deviation for '{voltage}': {stddev_voltage}")
+printAns(f"Standard Deviation for '{global_intensity}': {stddev_global_intensity}")
+printAns("==============================================================")
 
 
 # Perform min-max normalization
