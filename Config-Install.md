@@ -6,7 +6,7 @@
 | Cores | 20 |
 | Memory | 64G |
 
-## Install
+## Spark Installation
 #### Download Java runtime
 Install Java runtime (version 8 and above) <br>
 Add JAVA_HOME to System variable in Windows <br>
