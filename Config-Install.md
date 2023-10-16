@@ -1,5 +1,5 @@
 ## PC Configuration
-| item | Detail |
+| Item | Detail |
 | - | :---: |
 | Kernel | Window 10 Experience |
 | CPU | i5-13500 |
