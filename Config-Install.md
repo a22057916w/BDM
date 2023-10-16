@@ -9,15 +9,15 @@
 ## Install
 #### Download Java runtime
 Install Java runtime (version 8 and above) <br>
-Add JAVA_HOME to System variable in Windows
-Reboot and verify Java installation
+Add JAVA_HOME to System variable in Windows <br>
+Reboot and verify Java installation <br>
 
 #### Download Scala
-Install Scala
-Reboot and verify Scala installation
+Install Scala <br>
+Reboot and verify Scala installation <br>
 
 #### Download Spark distribution
-Extract the Spark TGZ file into TAR format. Extract the TAR file into a folder. E.g., C:\Spark
+Extract the Spark TGZ file into TAR format. Extract the TAR file into a folder. E.g., C:\Spark \
 Add SPARK_HOME to System variable in Windows
 Add %SPARK_HOME%\bin to the System variable: Path in Windows
 
