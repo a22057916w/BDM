@@ -8,7 +8,7 @@
 
 ## Install
 #### Download Java runtime
-Install Java runtime (version 8 and above)
+Install Java runtime (version 8 and above) <br>
 Add JAVA_HOME to System variable in Windows
 Reboot and verify Java installation
 
