@@ -44,7 +44,6 @@ df = df.withColumns({ "Global_active_power": col("Global_active_power").cast(dou
                     global_intensity: col(global_intensity).cast(double_type)
                       })
 
-# df.write.text("output.txt")
 
 # ============================== Calculate maximum values for the three columns ==============================
 # Define lambda expression for MapReduce
@@ -126,7 +125,7 @@ printAns("==============================================================")
 
 
 # ================================ Perform min-max normalization =======================================
-df_normalized = df.select(global_active_power, global_reactive_power, voltage, global_intensity)
+df_normalized = df.select(df.Date, df.Time, global_active_power, global_reactive_power, voltage, global_intensity)
 
 # Define the min-max normalization function
 min_max_normalize = lambda col_name, min_val, max_val: (col(col_name) - min_val) / (max_val - min_val)
@@ -145,17 +144,17 @@ df_normalized = df_normalized.withColumnsRenamed({global_active_power : "normali
                                                   })
 
 # Show the resulting DataFrame with normalized columns
-# df_normalized.show()
-# print("==============================================================")
+df_normalized.show()
+print("==============================================================")
 
 
 # Convert the DataFrame to a CSV-like format
 # head_rows = df.toPandas()
 
-# string_representation = head_rows.to_string(index=False)
+str_normalized_data = df_normalized.toPandas().to_string(index=False)
 
-# with open("file_name.txt", "w") as file:
-#     file.write(string_representation)
+with open("normalized_data.txt", "w") as file:
+    file.write(str_normalized_data)
 
 # df_normalized.write.csv("./data/normaliezd_data.csv")
 import time
