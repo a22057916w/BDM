@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
+from pyspark.sql.functions import min, mean, stddev, col
 from pyspark.sql.types import DoubleType
 
 spark = SparkSession.builder \
@@ -48,12 +48,16 @@ df = df.withColumns({ "Global_active_power": col("Global_active_power").cast(new
 
 
 
-# Calculate maximum values for the three columns
-max_values = df.select(max(global_active_power), max(global_reactive_power), max(voltage), max(global_intensity)).first()
-max_global_active_power = max_values[0]
-max_global_reactive_power = max_values[1]
-max_voltage = max_values[2]
-max_global_intensity = max_values[3]
+# ============= Calculate maximum values for the three columns ===============
+# Define lambda expression for MapReduce
+map_max = lambda x: x[0]
+reduce_max = lambda x, y: max(x, y)
+
+# Peform RDD mpa and reduce to get maximum values
+max_global_active_power = df.select(global_active_power).rdd.map(map_max).reduce(reduce_max)
+max_global_reactive_power = df.select(global_reactive_power).rdd.map(map_max).reduce(reduce_max)
+max_voltage = df.select(voltage).rdd.map(map_max).reduce(reduce_max)
+max_global_intensity = df.select(global_intensity).rdd.map(map_max).reduce(reduce_max)
 
 print(f"Maximum value for '{global_active_power}': {max_global_active_power}")
 print(f"Maximum value for '{global_reactive_power}': {max_global_reactive_power}")
