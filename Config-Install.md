@@ -32,3 +32,6 @@ Reboot and verify Spark installation
 Install pyspark \
 Add PYSPARK_PYTHON(same as python path) to System variable \
 Reboot and verify Pyspark installation
+
+## Run Source Code
+Simply type `python household_power_consumption_analysis.py` on CLI.
