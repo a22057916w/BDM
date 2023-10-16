@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import min, mean, stddev, col
+from pyspark.sql.functions import mean, stddev, col
 from pyspark.sql.types import DoubleType
 
 spark = SparkSession.builder \
@@ -13,7 +13,6 @@ global_reactive_power = "Global_reactive_power"
 voltage = "Voltage"
 global_intensity = "Global_intensity"
 
-df.show()
 
 df = df.filter(df.Global_active_power != "?")
 df = df.filter(df.Global_reactive_power != "?")
@@ -26,16 +25,6 @@ df = df.filter(df.Global_intensity != "?")
 df.show()
 print("==============================================================")
 
-# df.na.fill(10000).show()
-
-# # Get the data types of all columns
-# column_data_types = df.dtypes
-
-# # Print the data types
-# for column_name, data_type in column_data_types:
-#     print(f"Column '{column_name}' has data type: {data_type}")
-
-
 # Define the new data type you want for the column
 new_data_type = DoubleType()  
 
@@ -46,14 +35,22 @@ df = df.withColumns({ "Global_active_power": col("Global_active_power").cast(new
                     global_intensity: col(global_intensity).cast(new_data_type)
                       })
 
+# df.write.text("output.txt")
 
+# Convert the DataFrame to a CSV-like format
+# head_rows = df.toPandas()
 
-# ============= Calculate maximum values for the three columns ===============
+# string_representation = head_rows.to_string(index=False)
+
+# with open("file_name.txt", "w") as file:
+#     file.write(string_representation)
+
+# ============================== Calculate maximum values for the three columns ==============================
 # Define lambda expression for MapReduce
 map_max = lambda x: x[0]
 reduce_max = lambda x, y: max(x, y)
 
-# Peform RDD mpa and reduce to get maximum values
+# Peform RDD map and reduce to get maximum values
 max_global_active_power = df.select(global_active_power).rdd.map(map_max).reduce(reduce_max)
 max_global_reactive_power = df.select(global_reactive_power).rdd.map(map_max).reduce(reduce_max)
 max_voltage = df.select(voltage).rdd.map(map_max).reduce(reduce_max)
@@ -65,12 +62,17 @@ print(f"Maximum value for '{voltage}': {max_voltage}")
 print(f"Maximum value for '{global_intensity}': {max_global_intensity}")
 print("==============================================================")
 
-# Calculate minimum values for the three columns
-min_values = df.select(min(global_active_power), min(global_reactive_power), min(voltage), min(global_intensity)).first()
-min_global_active_power = min_values[0]
-min_global_reactive_power = min_values[1]
-min_voltage = min_values[2]
-min_global_intensity = min_values[3]
+# ============================== Calculate minimum values for the three columns ==============================
+# Define lambda expression for MapReduce
+map_min = lambda x: x[0]
+reduce_min = lambda x, y: min(x, y)
+
+# Peform RDD map and reduce to get maximum values
+# min_values = df.select(min(global_active_power), min(global_reactive_power), min(voltage), min(global_intensity)).first()
+min_global_active_power = df.select(global_active_power).rdd.map(map_min).reduce(reduce_min)
+min_global_reactive_power = df.select(global_reactive_power).rdd.map(map_min).reduce(reduce_min)
+min_voltage = df.select(voltage).rdd.map(map_min).reduce(reduce_min)
+min_global_intensity = df.select(global_intensity).rdd.map(map_min).reduce(reduce_min)
 
 print(f"Minimum value for '{global_active_power}': {min_global_active_power}")
 print(f"Minimum value for '{global_reactive_power}': {min_global_reactive_power}")
@@ -78,7 +80,7 @@ print(f"Minimum value for '{voltage}': {min_voltage}")
 print(f"Minimum value for '{global_intensity}: {min_global_intensity}")
 print("==============================================================")
 
-# Calculate counts for the three columns
+# ============================== Calculate counts for the three columns ===============================
 count_global_active_power = df.select(global_active_power).count()
 count_global_reactive_power = df.select(global_reactive_power).count()
 count_voltage = df.select(voltage).count()
@@ -92,7 +94,7 @@ print("==============================================================")
 
 
 
-# Calculate the mean and standard deviation 
+# ============================== Calculate the mean and standard deviation ==============================
 mean_values = df.select(mean(global_active_power), mean(global_reactive_power), mean(voltage), mean(global_intensity)).first()
 mean_global_active_power = mean_values[0]
 mean_global_reactive_power = mean_values[1]
@@ -105,7 +107,7 @@ print(f"Mean value for '{voltage}': {mean_voltage}")
 print(f"Mean value for '{global_intensity}': {mean_global_intensity}")
 print("==============================================================")
 
-# Calculate the standard deviation 
+# ============================== Calculate the standard deviation ==============================
 stddev_values = df.select(stddev(global_active_power), stddev(global_reactive_power), stddev(voltage), stddev(global_intensity)).first()
 stddev_global_active_power = stddev_values[0]
 stddev_global_reactive_power = stddev_values[1]
@@ -142,6 +144,7 @@ df_normalized = df_normalized.withColumnsRenamed({global_active_power : "normali
 df_normalized.show()
 print("==============================================================")
 
+# df_normalized.write.csv("./data/normaliezd_data.csv")
 import time
 
 # For UI to stick
