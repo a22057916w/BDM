@@ -1,6 +1,14 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import mean, stddev, col
 from pyspark.sql.types import DoubleType
+import codecs
+
+def printAns(print_line):
+    file_answer = codecs.open("Answer.txt", "a", "utf-8")
+    print(print_line)
+    file_answer.write(f"{print_line}\n")
+    file_answer.close()
+    
 
 spark = SparkSession.builder \
     .appName("MapReduce") \
@@ -56,11 +64,11 @@ max_global_reactive_power = df.select(global_reactive_power).rdd.map(map_max).re
 max_voltage = df.select(voltage).rdd.map(map_max).reduce(reduce_max)
 max_global_intensity = df.select(global_intensity).rdd.map(map_max).reduce(reduce_max)
 
-print(f"Maximum value for '{global_active_power}': {max_global_active_power}")
-print(f"Maximum value for '{global_reactive_power}': {max_global_reactive_power}")
-print(f"Maximum value for '{voltage}': {max_voltage}")
-print(f"Maximum value for '{global_intensity}': {max_global_intensity}")
-print("==============================================================")
+printAns(f"Maximum value for '{global_active_power}': {max_global_active_power}")
+printAns(f"Maximum value for '{global_reactive_power}': {max_global_reactive_power}")
+printAns(f"Maximum value for '{voltage}': {max_voltage}")
+printAns(f"Maximum value for '{global_intensity}': {max_global_intensity}")
+printAns("==============================================================")
 
 # ============================== Calculate minimum values for the three columns ==============================
 # Define lambda expression for MapReduce
